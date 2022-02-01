@@ -2,7 +2,7 @@ import { Router } from "express";
 import bcrypt from "bcrypt";
 
 import { User } from "../src/entities/User";
-
+// testing
 const router = Router();
 type RequestBody = {
   username: string;
