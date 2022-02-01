@@ -12,13 +12,14 @@ type RequestBody = {
 };
 
 export const registerUser = async (req: Request, res: Response) => {
-  const { body } = req;
+  const { username, email, password } = req.body as RequestBody;
   try {
-    const { username, email, password } = body as RequestBody;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const user: User = User.create({
       username,
       email,
-      password,
+      password: hashedPassword,
     });
 
     await user.save();
