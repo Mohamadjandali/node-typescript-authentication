@@ -5,9 +5,7 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  BeforeInsert,
 } from "typeorm";
-import bcrypt from "bcrypt";
 
 @Entity({ name: "users" })
 export class User extends BaseEntity {
@@ -28,9 +26,4 @@ export class User extends BaseEntity {
 
   @UpdateDateColumn()
   updated_at: Date;
-
-  @BeforeInsert()
-  async encryptPassword() {
-    this.password = await bcrypt.hash(this.password, 8);
-  }
 }
