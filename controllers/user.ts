@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 
 import { User } from "../src/entities/User";
+import { generateAuthToken } from "../utils/tokenGenerator";
 
 type RequestBody = {
   username: string;
@@ -23,7 +24,9 @@ export const registerUser = async (req: Request, res: Response) => {
     });
 
     await user.save();
-    res.status(201).send(user);
+    const token = generateAuthToken(user.id.toString());
+
+    res.status(201).send({ user, token });
   } catch (err) {
     console.log(err);
   }
@@ -45,7 +48,9 @@ export const loginUser = async (req: Request, res: Response) => {
       throw new Error("Email or Password is incorrect!");
     }
 
-    res.send(user);
+    const token = generateAuthToken(user.id.toString());
+
+    res.send({ user, token });
   } catch (err) {
     console.log(err);
   }
